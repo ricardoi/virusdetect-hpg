@@ -1,19 +1,19 @@
 #!/bin/perl
-##SBATCH --account=epi
-##SBATCH --qos=epi
-##SBATCH --job-name=virusdetect
-###SBATCH --mail-type=ALL
-###SBATCH --mail-user=ralcala@ufl.edu
-##SBATCH --ntasks=16
-##SBATCH --mem=16gb
-##SBATCH --time=900:00:00
-##SBATCH --output=logs/virusdetect_%A_%a.out
-##SBATCH --array=1-1000%50
+#SBATCH --account=epi
+#SBATCH --qos=epi
+#SBATCH --job-name=virusdetect
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=ralcala@ufl.edu
+#SBATCH --ntasks=16
+#SBATCH --mem=16gb
+#SBATCH --time=10:00:00
+#SBATCH --output=logs/virusdetect_%A_%a.out
+#SBATCH --array=1-1000%50
 date; hostname; pwd
 
 
 #@ Command usage example
-#      sbatchh virusdetect_v17.sbatch vrl_plant 1-data/papa_reads/ 1-data/papa_genome/papa_Geno_AEWC01.fasta.gz
+#      sbatch virusdetect_v17.sbatch vrl_plant 1-data/papa_reads/ 1-data/papa_genome/papa_Geno_AEWC01.fasta.gz
 
 #@ VirusDetect v1.7 for linux
 #@ Processing of small single RNAs to detect viruses in crops
