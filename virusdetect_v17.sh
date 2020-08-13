@@ -29,4 +29,4 @@ module load virusdetect
 
 #@ runing virusdetect 
 
-perl ~/virus_detect.pl --reference "$DATABASE" "$FILENAME" --thread_num 8
+perl ~/virus_detect.pl --reference "$DATABASE" "$FILENAME" --host_reference 1-data/papa_genome/papa_Geno_AEWC01.fasta.gz --thread_num 8
