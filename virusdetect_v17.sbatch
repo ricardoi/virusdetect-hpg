@@ -19,8 +19,8 @@ date; hostname; pwd
 #@ VirusDetect v1.7 for linux
 #@ Processing of small single RNAs to detect viruses in crops
 DATABASE=$1 #@ Add PATH to database
-FILENAME=$2 #@ Add PATH/file name
-DATABASE=$3
+PATHTOFILES=$2 #@ Add PATH/file name
+HOSTE=$3
 RUN=${SLURM_ARRAY_TASK_ID:-99}
 
 # Load modules 
@@ -28,9 +28,9 @@ module load ufrc
 module load perl
 module load virusdetect
 
-input=$(ls ${FILENAME} | sed -n ${RUN}p)
+input=$(ls ${PATHTOFILES} | sed -n ${RUN}p)
 
 #@ example program
 # perl bin/virus_identify.pl --reference databases/vrl_plant input_contig.fasta
 echo 'begging run'
-perl ~/virus_detect.pl --reference "$DATABASE" "$input" --host_reference "$DATABASE" --thread_num 16
+perl ~/virus_detect.pl --reference "$DATABASE" "$PATHTOFILES$input" --host_reference "$HOST" --thread_num 16
