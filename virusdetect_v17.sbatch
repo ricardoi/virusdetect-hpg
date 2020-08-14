@@ -1,10 +1,11 @@
-#!/bin/perl
+#!/bin/sh
 #SBATCH --account=epi
 #SBATCH --qos=epi
 #SBATCH --job-name=virusdetect
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ralcala@ufl.edu
-#SBATCH --ntasks=16
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
 #SBATCH --mem=16gb
 #SBATCH --time=10:00:00
 #SBATCH --output=logs/virusdetect_%A_%a.out
@@ -20,16 +21,16 @@ date; hostname; pwd
 DATABASE=$1 #@ Add PATH to database
 FILENAME=$2 #@ Add PATH/file name
 DATABASE=$3
-RUN=${SLURM_ARRAY_TASK_ID:=42}
+RUN=${SLURM_ARRAY_TASK_ID:-99}
 
 # Load modules 
 module load ufrc
 module load perl
 module load virusdetect
 
-# input=$(ls ${FILENAME} | sed -n ${RUN}p)
+input=$(ls ${FILENAME} | sed -n ${RUN}p)
 
 #@ example program
 # perl bin/virus_identify.pl --reference databases/vrl_plant input_contig.fasta
 echo 'begging run'
-perl ~/virus_detect.pl --reference "$DATABASE" "$RUN" --host_reference "$DATABASE" --thread_num 16
+perl ~/virus_detect.pl --reference "$DATABASE" "$input" --host_reference "$DATABASE" --thread_num 16
