@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --account=epi
-#SBATCH --qos=epi
+#SBATCH --qos=epi-b
 #SBATCH --job-name=virusdetect
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ralcala@ufl.edu
@@ -12,25 +12,28 @@
 #SBATCH --array=1-1000%50
 date; hostname; pwd
 
-
-#@ Command usage example
-#      sbatch virusdetect_v17.sbatch vrl_plant 1-data/papa_reads/ 1-data/papa_genome/papa_Geno_AEWC01.fasta.gz
-
-#@ VirusDetect v1.7 for linux
-#@ Processing of small single RNAs to detect viruses in crops
-DATABASE=$1 #@ Add PATH to database
-PATHTOFILES=$2 #@ Add PATH/file name
-HOSTE=$3
-RUN=${SLURM_ARRAY_TASK_ID:-99}
-
-# Load modules 
+# Load modules
 module load ufrc
 module load perl
 module load virusdetect
 
-input=$(ls ${PATHTOFILES} | sed -n ${RUN}p)
+RUN=${SLURM_ARRAY_TASK_ID}
+
+#@ Command usage example
+#      sbatch virusdetect_v17.sbatch vrl_Plants_239_U95 reads/ genome/name_file.fasta.gz
+
+#@ VirusDetect v1.7 for linux
+#@ Processing of small single RNAs to detect viruses in crops
+DATABASE=$1 #@ DATABASE $PATH
+IN_DIR=$2 #@ FILE_NAME $PATH
+HOST=$3 #@ HOST $PATH
+
+# Array task
+in_file=$(ls ${IN_DIR} | sed -n ${RUN}p)
+echo "Run ${RUN}: Input file ${in_file}"
 
 #@ example program
 # perl bin/virus_identify.pl --reference databases/vrl_plant input_contig.fasta
 echo 'begging run'
-perl ~/virus_detect.pl --reference "$DATABASE" "$PATHTOFILES$input" --host_reference "$HOST" --thread_num 16
+virus_detect.pl --reference "$DATABASE" "$IN_DIR$in_file" --host_reference "$HOST" --thread_num 16
+
