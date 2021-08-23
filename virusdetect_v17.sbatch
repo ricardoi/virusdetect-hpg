@@ -9,7 +9,7 @@
 #SBATCH --mem=16gb
 #SBATCH --time=10:00:00
 #SBATCH --output=logs/virusdetect_%A_%a.out
-#SBATCH --array=1-1000%50
+#SBATCH --array=1-13%3 # 1159%100
 date; hostname; pwd
 
 # Load modules
@@ -25,7 +25,7 @@ RUN=${SLURM_ARRAY_TASK_ID}
 #@ VirusDetect v1.7 for linux
 #@ Processing of small single RNAs to detect viruses in crops
 DATABASE=$1 #@ DATABASE $PATH
-IN_DIR=$2 #@ FILE_NAME $PATH
+IN_DIR=$2 #@ READ_NAMES $PATH
 HOST=$3 #@ HOST $PATH
 
 # Array task
